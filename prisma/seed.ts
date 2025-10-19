@@ -1,4 +1,5 @@
-import { PrismaClient, type Dust } from '../generated/prisma/client.js'
+import { PrismaMariaDb } from '@prisma/adapter-mariadb';
+import { PrismaClient } from '../generated/prisma/client.js'
 import { env, exit } from "node:process";
 
 interface FetchedData {
@@ -17,7 +18,8 @@ interface TrimedDust {
     grade: number,
 }
 
-const prisma = new PrismaClient();
+const adapter = new PrismaMariaDb(env["DATABASE_URL"]!);
+const prisma = new PrismaClient({ adapter});
 
 async function main() {
     const params = new URLSearchParams({

@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@prisma/adapter-mariadb": "^6.17.1",
     "@prisma/client": "^6.9.0",
     "next": "^15.3.5",
     "react": "^19.1.0",
