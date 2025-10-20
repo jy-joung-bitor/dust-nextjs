@@ -1,22 +1,10 @@
-import { type Dust, PrismaClient } from "../generated/prisma/client.js";
-import { useOption } from "./provider.js";
+'use client'
 
-export function DustCard({ dust }: { dust: Dust }) {
+import { prisma, type Dust } from "../prisma";
+import { useOption } from "./provider";
+
+function DustCard({ dust, handleClick }: { dust: Dust, handleClick: (id: string, bookmarked: boolean) => Promise<void> }) {
     const { id, bookmarked, sido, station, value, grade } = dust;
-
-    const handleClick = async (id: string, bookmarked: boolean) => {
-        const prisma = new PrismaClient();
-        await prisma.dust.update({
-            where: {
-                id,
-            },
-            data: {
-                bookmarked: !bookmarked,
-            }
-        });
-
-        globalThis.location.reload();
-    }
 
     return (
         <li onClick={() => handleClick(id, bookmarked)}>
@@ -25,7 +13,7 @@ export function DustCard({ dust }: { dust: Dust }) {
     );
 }
 
-export default function DustCardList({ dusts }: { dusts: Dust[] }) {
+export default function DustCardList({ dusts, handleClick }: { dusts: Dust[], handleClick: (id: string, bookmarked: boolean) => Promise<void> }) {
     const { state } = useOption();
     const { sido, bookmark } = state;
 
@@ -35,7 +23,7 @@ export default function DustCardList({ dusts }: { dusts: Dust[] }) {
                 dusts
                     .filter(dust => sido === "전국" || dust.sido === sido)
                     .filter(dust => !bookmark || dust.bookmarked)
-                    .map((dust) => <DustCard key={dust.id} dust={dust} />)
+                    .map((dust) => <DustCard key={dust.id} dust={dust} handleClick={handleClick} />)
             }
         </ul>
     )

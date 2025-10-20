@@ -1,6 +1,5 @@
-import { PrismaMariaDb } from '@prisma/adapter-mariadb';
-import { PrismaClient } from '../generated/prisma/client.js'
 import { env, exit } from "node:process";
+import { prisma } from ".";
 
 interface FetchedData {
     stationCode: string,
@@ -9,17 +8,6 @@ interface FetchedData {
     pm25Value: string,
     pm25Grade: string,
 }
-
-interface TrimedDust {
-    id: string,
-    sido: string,
-    station: string,
-    value: number,
-    grade: number,
-}
-
-const adapter = new PrismaMariaDb(env["DATABASE_URL"]!);
-const prisma = new PrismaClient({ adapter});
 
 async function main() {
     const params = new URLSearchParams({
@@ -42,7 +30,7 @@ async function main() {
                 station: a.stationName,
                 value: Number(a.pm25Value),
                 grade: Number(a.pm25Grade)
-            } as TrimedDust)));
+            })));
 
         for (const dust of dusts) {
             await prisma.dust.upsert({
