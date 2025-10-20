@@ -1,12 +1,13 @@
 'use client'
 
-import type { ChangeEvent } from "react";
+import { use, type ChangeEvent } from "react";
 import { useOption } from "./provider";
 import type { Dust } from "../prisma";
 
-export default function SidoSelector({ dusts }: { dusts: Dust[] }) {
+export default function SidoSelector({ dusts }: { dusts: Promise<Dust[]> }) {
     const { state, dispatch } = useOption();
     const { sido, bookmark } = state;
+    const dustsResolved = use(dusts);
     console.log(state);
 
     const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -21,9 +22,9 @@ export default function SidoSelector({ dusts }: { dusts: Dust[] }) {
             <label>Sido:
                 <select name="sido" onChange={handleChange} value={sido}>
                     {
-                        dusts
+                        ["전국", ...dustsResolved
                             .map(x => x.sido)
-                            .reduce((a, b) => a.includes(b) ? a : [...a, b], [] as string[])
+                            .reduce((a, b) => a.includes(b) ? a : [...a, b], [] as string[])]
                             .map(x => <option key={x} value={x}>{x}</option>)
                     }
                 </select>

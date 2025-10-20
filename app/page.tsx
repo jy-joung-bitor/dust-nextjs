@@ -1,27 +1,14 @@
-import DustCardList from "../components/dustcard";
-import OptionProvider from "../components/provider";
-import SidoSelector from "../components/sidoselector";
-import { prisma } from "../prisma";
+import DustCardList from "@/components/dustcard";
+import OptionProvider from "@/components/provider";
+import SidoSelector from "@/components/sidoselector";
+import { getDusts } from "./action";
 
-export default async function Home() {
-    const dusts = await prisma.dust.findMany();
-    
-        const handleClick = async (id: string, bookmarked: boolean) => {
-            'use server'
-            await prisma.dust.update({
-                where: {
-                    id,
-                },
-                data: {
-                    bookmarked: !bookmarked,
-                }
-            });
-        }
-
+export default function Home() {
+    const dusts = getDusts();
     return (
         <main>
             <OptionProvider>
-                <DustCardList dusts={dusts} handleClick={handleClick} />
+                <DustCardList dusts={dusts} />
                 <SidoSelector dusts={dusts} />
             </OptionProvider>
         </main>
