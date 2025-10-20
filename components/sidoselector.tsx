@@ -1,7 +1,7 @@
 'use client'
 
 import { use, type ChangeEvent } from "react";
-import { useOption } from "./provider";
+import { DEFAULT_SIDO, useOption } from "./provider";
 import type { Dust } from "../prisma";
 
 export default function SidoSelector({ dusts }: { dusts: Promise<Dust[]> }) {
@@ -22,7 +22,7 @@ export default function SidoSelector({ dusts }: { dusts: Promise<Dust[]> }) {
             <label>Sido:
                 <select name="sido" onChange={handleChange} value={sido}>
                     {
-                        ["전국", ...dustsResolved
+                        [DEFAULT_SIDO, ...dustsResolved
                             .map(x => x.sido)
                             .reduce((a, b) => a.includes(b) ? a : [...a, b], [] as string[])]
                             .map(x => <option key={x} value={x}>{x}</option>)

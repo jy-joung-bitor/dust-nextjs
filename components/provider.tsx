@@ -1,5 +1,6 @@
 'use client'
 
+import { env } from "node:process";
 import { createContext, useContext, useReducer } from "react";
 
 type Option = {
@@ -12,7 +13,8 @@ type OptionTools = {
     dispatch: (action: Partial<Option>) => void;
 }
 
-const DEFAULT_OPTION: Option = { sido: "전국", bookmark: false };
+export const DEFAULT_SIDO = env['NEXT_PUBLIC_DEFAULT_SIDO'] || "전국";
+const DEFAULT_OPTION: Option = { sido: DEFAULT_SIDO, bookmark: false };
 
 const reducer = (state: Option, action: Partial<Option>): Option => {
     return { ...state, ...action };
