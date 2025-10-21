@@ -11,7 +11,7 @@ type Option = {
 type OptionTools = {
     state: Option;
     dispatch: (action: Partial<Option>) => void;
-}
+} | null
 
 export const DEFAULT_SIDO = env['NEXT_PUBLIC_DEFAULT_SIDO'] || "전국";
 const DEFAULT_OPTION: Option = { sido: DEFAULT_SIDO, bookmark: false };
@@ -20,10 +20,7 @@ const reducer = (state: Option, action: Partial<Option>): Option => {
     return { ...state, ...action };
 }
 
-const OptionContext = createContext<OptionTools>({ 
-    state: DEFAULT_OPTION, 
-    dispatch: () => { }  
-});
+const OptionContext = createContext<OptionTools>(null);
 
 export function useOption() {
     return useContext(OptionContext);
