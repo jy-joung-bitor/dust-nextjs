@@ -13,7 +13,7 @@ async function main() {
     const params = new URLSearchParams({
         serviceKey: env["FETCH_SERVICEKEY"]!,
         returnType: env["FETCH_RETURNTYPE"]!,
-        sidoName: env["FETCH_SIDONAME"]!,
+        sidoName: env["NEXT_PUBLIC_DEFAULT_SIDO"]!,
         ver: env["FETCH_VER"]!,
         numOfRows: env["FETCH_NUMOFROWS"]!,
     });
